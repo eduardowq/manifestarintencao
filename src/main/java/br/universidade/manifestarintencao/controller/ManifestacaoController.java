@@ -31,9 +31,9 @@ public class ManifestacaoController {
         return ResponseEntity.ok(manifestacaoService.listarTodasManifestacoes());
     }
 
-    @GetMapping("/docente/{docenteId}")
-    public ResponseEntity<List<ManifestacaoInteresse>> listarPorDocente(@PathVariable Long docenteId) {
-        return ResponseEntity.ok(manifestacaoService.listarPorDocente(docenteId));
+    @GetMapping("/disciplina/{disciplinaId}")
+    public ResponseEntity<List<ManifestacaoInteresse>> listarPorDisciplina(@PathVariable Long disciplinaId) {
+        return ResponseEntity.ok(manifestacaoService.listarPorDisciplina(disciplinaId));
     }
 
     @PatchMapping("/{id}/status")
