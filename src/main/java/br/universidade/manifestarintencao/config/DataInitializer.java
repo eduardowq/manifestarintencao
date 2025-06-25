@@ -53,10 +53,10 @@ public class DataInitializer implements CommandLineRunner {
         Turma turmaBio = criarTurma(2024, 1, biologia);
 
         // Criar manifestações de interesse
-        criarManifestacao(carlos, turmaMat, "Manhã", StatusManifestacao.ACEITA);
-        criarManifestacao(carlos, turmaFis, "Noite", StatusManifestacao.PENDENTE);
-        criarManifestacao(maria, turmaHis, "Tarde", StatusManifestacao.ACEITA);
-        criarManifestacao(joao, turmaBio, "Manhã", StatusManifestacao.PENDENTE);
+        criarManifestacao(matematica, turmaMat, "46T2345", StatusManifestacao.ACEITA);
+        criarManifestacao(fisica, turmaFis, "5T2345", StatusManifestacao.PENDENTE);
+        criarManifestacao(historia, turmaHis, "3T2345", StatusManifestacao.ACEITA);
+        criarManifestacao(biologia, turmaBio, "46T2345", StatusManifestacao.PENDENTE);
 
         System.out.println("✅ Dados iniciais salvos no banco");
     }
@@ -90,9 +90,9 @@ public class DataInitializer implements CommandLineRunner {
         return turmaRepository.save(turma);
     }
 
-    private void criarManifestacao(Docente docente, Turma turma, String turno, StatusManifestacao status) {
+    private void criarManifestacao(Disciplina disciplina, Turma turma, String turno, StatusManifestacao status) {
         ManifestacaoInteresse mi = new ManifestacaoInteresse();
-        mi.setDocente(docente);
+        mi.setDisciplina(disciplina);
         mi.setTurma(turma);
         mi.setTurnoPreferido(turno);
         mi.setStatus(status);
