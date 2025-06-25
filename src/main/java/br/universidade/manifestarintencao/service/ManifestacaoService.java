@@ -1,10 +1,10 @@
 package br.universidade.manifestarintencao.service;
 
-import br.universidade.manifestarintencao.entity.Docente;
+import br.universidade.manifestarintencao.entity.Disciplina;
 import br.universidade.manifestarintencao.entity.ManifestacaoInteresse;
 import br.universidade.manifestarintencao.entity.StatusManifestacao;
 import br.universidade.manifestarintencao.entity.Turma;
-import br.universidade.manifestarintencao.repository.DocenteRepository;
+import br.universidade.manifestarintencao.repository.DisciplinaRepository;
 import br.universidade.manifestarintencao.repository.ManifestacaoInteresseRepository;
 import br.universidade.manifestarintencao.repository.TurmaRepository;
 import org.springframework.stereotype.Service;
@@ -15,20 +15,20 @@ import java.util.List;
 @Service
 public class ManifestacaoService {
     private final ManifestacaoInteresseRepository manifestacaoRepo;
-    private final DocenteRepository docenteRepo;
+    private final DisciplinaRepository disciplinaRepo;
     private final TurmaRepository turmaRepo;
 
     public ManifestacaoService(ManifestacaoInteresseRepository manifestacaoRepo,
-                             DocenteRepository docenteRepo,
+                             DisciplinaRepository disciplinaRepo,
                              TurmaRepository turmaRepo) {
         this.manifestacaoRepo = manifestacaoRepo;
-        this.docenteRepo = docenteRepo;
+        this.disciplinaRepo = disciplinaRepo;
         this.turmaRepo = turmaRepo;
     }
 
     public ManifestacaoInteresse salvarManifestacao(ManifestacaoInteresse manifestacao) {
-        if (manifestacao.getDocente() == null || manifestacao.getDocente().getId() == null) {
-            throw new IllegalArgumentException("Docente é obrigatório");
+        if (manifestacao.getDisciplina() == null || manifestacao.getDisciplina().getId() == null) {
+            throw new IllegalArgumentException("Disciplina é obrigatório");
         }
         if (manifestacao.getTurma() == null || manifestacao.getTurma().getId() == null) {
             throw new IllegalArgumentException("Turma é obrigatória");
@@ -37,22 +37,21 @@ public class ManifestacaoService {
             throw new IllegalArgumentException("Turno preferido é obrigatório");
         }
 
-        Docente docente = docenteRepo.findById(manifestacao.getDocente().getId())
-            .orElseThrow(() -> new IllegalArgumentException("Docente não encontrado"));
+        Disciplina disciplina = disciplinaRepo.findById(manifestacao.getDisciplina().getId())
+            .orElseThrow(() -> new IllegalArgumentException("Disciplina não encontrado"));
         
         Turma turma = turmaRepo.findById(manifestacao.getTurma().getId())
             .orElseThrow(() -> new IllegalArgumentException("Turma não encontrada"));
 
-        boolean existeManifestacao = manifestacaoRepo.existsByDocenteIdAndTurmaId(
-            docente.getId(), turma.getId());
+        boolean existeManifestacao = manifestacaoRepo.existsByDisciplinaIdAndTurmaId(
+            disciplina.getId(), turma.getId());
         
         if (existeManifestacao) {
-            throw new IllegalStateException("Já existe uma manifestação para este docente e turma");
+            throw new IllegalStateException("Já existe uma manifestação para este disciplina e turma");
         }
 
-        manifestacao.setDocente(docente);
-        manifestacao.setTurma(turma);
-        //manifestacao.setStatus(StatusManifestacao.PENDENTE);
+        manifestacao.setDisciplina(disciplina);
+        manifestacao.setTurma(turma);//manifestacao.setStatus(StatusManifestacao.PENDENTE);
 
         return manifestacaoRepo.save(manifestacao);
     }
@@ -61,8 +60,8 @@ public class ManifestacaoService {
         return manifestacaoRepo.findAll();
     }
 
-    public List<ManifestacaoInteresse> listarPorDocente(Long docenteId) {
-        return manifestacaoRepo.findByDocenteId(docenteId);
+    public List<ManifestacaoInteresse> listarPorDisciplina(Long disciplinaId) {
+        return manifestacaoRepo.findByDisciplinaId(disciplinaId);
     }
 
     public ManifestacaoInteresse atualizarStatus(Long id, StatusManifestacao status) {
