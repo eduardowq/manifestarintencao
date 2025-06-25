@@ -12,7 +12,7 @@ public class ManifestacaoInteresse {
     private Long id;
 
     @ManyToOne
-    private Docente docente;
+    private Disciplina disciplina;
 
     @ManyToOne
     private Turma turma;
