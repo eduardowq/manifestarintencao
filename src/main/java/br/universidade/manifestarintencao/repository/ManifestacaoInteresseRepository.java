@@ -11,9 +11,9 @@ import java.util.List;
 public interface ManifestacaoInteresseRepository 
        extends JpaRepository<ManifestacaoInteresse, Long> {
 
-    boolean existsByDocenteIdAndTurmaId(Long docenteId, Long turmaId);
+    boolean existsByDisciplinaIdAndTurmaId(Long disciplinaId, Long turmaId);
 
-    List<ManifestacaoInteresse> findByDocenteId(Long docenteId);
+    List<ManifestacaoInteresse> findByDisciplinaId(Long disciplinaId);
 
     List<ManifestacaoInteresse> findByStatus(StatusManifestacao status);
 }
